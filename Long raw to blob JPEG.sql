@@ -1,3 +1,4 @@
+--Create a table to store converted raw as blob
 CREATE TABLE PMIS_OPL.PMIS_EMP_OTHERS_TMP
 (
   EMP_CODE               VARCHAR2(10 BYTE)      NOT NULL,
@@ -5,10 +6,14 @@ CREATE TABLE PMIS_OPL.PMIS_EMP_OTHERS_TMP
   SLNO                   number
 );
 
+
+--Use an SLNO to limit and faster chunk by chunk process management
 alter table PMIS_OPL.PMIS_EMP_OTHERS
 add slno number;
 
 
+
+--Update SLNO increment by 1 to work like primary key
 DECLARE
     CURSOR c1 IS SELECT emp_code, slno FROM PMIS_OPL.PMIS_EMP_OTHERS;
 sln number := 0;
@@ -65,5 +70,6 @@ BEGIN
 END;
 
 
-
---SELECT COUNT(1) FROM PMIS_EMP_OTHERS_TMP WHERE EMP_PIC IS NULL    2540
+--Run Count to cross check if there is any blob / raw misses by the process
+--SELECT COUNT(1) FROM PMIS_EMP_OTHERS_TMP WHERE EMP_PIC IS NULL   	 2540
+-- SELECT COUNT(1) FROM PMIS_EMP_OTHERS WHERE EMP_PIC IS NULL	   2540
