@@ -30,6 +30,9 @@ BEGIN
     END LOOP;
 END;
 
+--Make sure you have enough space in tablespace
+select round(sum(dbms_lob.getlength(emp_pic_blob))/1024/1024) as MB
+from PMIS_OHNL.PMIS_EMP_OTHERS_TMP;
 
 -- Convert Long RAW into blob by inserting into temp table
 DECLARE
